@@ -1,3 +1,8 @@
+/* Kardo Jõeleht
+ * 
+ * An attempt at making a console calculator.
+ * Not working.
+ */
 package xyz.kardo.calculator;
 
 import java.io.BufferedReader;

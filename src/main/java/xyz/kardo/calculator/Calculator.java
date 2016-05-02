@@ -1,3 +1,7 @@
+/* Kardo Jõeleht
+ * 
+ * The main "brain".
+ */
 package xyz.kardo.calculator;
 
 import java.math.RoundingMode;
@@ -26,7 +30,9 @@ public class Calculator {
 
 	public void calculate() {
 		boolean operatorIsSet = operator != ' ';
-		if(operatorIsSet){			
+		boolean bothOperandsAreSet = !firstOperand.equals("") && !secondOperand.equals("");
+		
+		if(operatorIsSet && bothOperandsAreSet){
 			double calculation = 0;
 			if(operator == '*'){
 				calculation = Double.valueOf(firstOperand) * Double.valueOf(secondOperand);
@@ -39,9 +45,14 @@ public class Calculator {
 			}
 			reset();
 			firstOperand = roundCalculationToLength(calculation);
+			firstOperand = replaceCommaWithDot(firstOperand);
 		}
 	}
 	
+	private String replaceCommaWithDot(String number) {
+		return number.replace(',', '.');
+	}
+
 	private String roundCalculationToLength(double calculation){
 		int commaIndex = String.valueOf(calculation).indexOf('.');
 		String formatString = buildFormatString(commaIndex);
@@ -70,7 +81,11 @@ public class Calculator {
 		boolean secondOperandIsSet = !secondOperand.equals("");
 		boolean digitIsAValidOperator = allowedOperators.indexOf(digit) != -1;
 		
-		if(firstOperandIsSet && !secondOperandIsSet && digitIsAValidOperator){	
+		if(digit == 'C'){
+			reset();
+		} else if(digit == '='){
+			calculate();
+		} else if(firstOperandIsSet && !secondOperandIsSet && digitIsAValidOperator){	
 			operator = digit;
 		} else if(firstOperandIsSet && operatorIsSet && !digitIsAValidOperator){
 			secondOperand += String.valueOf(digit);
