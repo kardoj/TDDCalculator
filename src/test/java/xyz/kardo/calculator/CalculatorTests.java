@@ -29,10 +29,7 @@ public class CalculatorTests {
 	
 	@Test
 	public void resetFunction(){
-		calculator.inputDigit('3');
-		calculator.inputDigit('/');
-		calculator.inputDigit('7');
-		calculator.inputDigit('1');
+		inputDigitSequence("3/71");
 		calculator.reset();
 		assertEquals("", calculator.getOutput());
 	}
@@ -45,15 +42,13 @@ public class CalculatorTests {
 	
 	@Test
 	public void inputMoreDigitsBeforeOperand(){
-		calculator.inputDigit('3');
-		calculator.inputDigit('5');
+		inputDigitSequence("35");
 		assertEquals("35", calculator.getOutput());
 	}
 	
 	@Test
 	public void inputOperatorDigitAfterFirstOperand(){
-		calculator.inputDigit('5');
-		calculator.inputDigit('*');
+		inputDigitSequence("5*");
 		assertEquals("5*", calculator.getOutput());
 	}
 	
@@ -65,96 +60,61 @@ public class CalculatorTests {
 	
 	@Test
 	public void inputTwoOperatorsAfterFirstOperand(){
-		calculator.inputDigit('5');
-		calculator.inputDigit('*');
-		calculator.inputDigit('*');
+		inputDigitSequence("5**");
 		assertEquals("5*", calculator.getOutput());
 	}
 	
 	@Test
 	public void inputOperatorAfterOperandOperatorAndOperand(){
-		calculator.inputDigit('4');
-		calculator.inputDigit('*');
-		calculator.inputDigit('5');
-		calculator.inputDigit('*');
+		inputDigitSequence("4*5*");
 		assertEquals("20*", calculator.getOutput());
 	}
 	
 	@Test
 	public void multiply(){
-		calculator.inputDigit('5');
-		calculator.inputDigit('*');
-		calculator.inputDigit('7');
-		calculator.inputDigit('=');
+		inputDigitSequence("5*7=");
 		assertEquals("35", calculator.getOutput());
 	}
 	
 	@Test
 	public void add(){
-		calculator.inputDigit('5');
-		calculator.inputDigit('+');
-		calculator.inputDigit('7');
-		calculator.inputDigit('=');
+		inputDigitSequence("5+7=");
 		assertEquals("12", calculator.getOutput());
 	}
 	
 	@Test
 	public void subtract(){
-		calculator.inputDigit('5');
-		calculator.inputDigit('-');
-		calculator.inputDigit('7');
-		calculator.inputDigit('=');
+		inputDigitSequence("5-7=");
 		assertEquals("-2", calculator.getOutput());
 	}
 	
 	@Test
 	public void divide(){
-		calculator.inputDigit('1');
-		calculator.inputDigit('0');
-		calculator.inputDigit('/');
-		calculator.inputDigit('5');
-		calculator.inputDigit('=');
+		inputDigitSequence("10/5=");
 		assertEquals("2", calculator.getOutput());
 	}
 	
 	@Test
 	public void divideUneven(){
-		calculator.inputDigit('1');
-		calculator.inputDigit('0');
-		calculator.inputDigit('/');
-		calculator.inputDigit('3');
-		calculator.inputDigit('=');
+		inputDigitSequence("10/3=");
 		assertEquals("3.333333333", calculator.getOutput());
 	}
 	
 	@Test
 	public void divideUnevenDoubleDigits(){
-		calculator.inputDigit('4');
-		calculator.inputDigit('0');
-		calculator.inputDigit('/');
-		calculator.inputDigit('3');
-		calculator.inputDigit('=');
+		inputDigitSequence("40/3=");
 		assertEquals("13.33333333", calculator.getOutput());		
 	}
 	
 	@Test
 	public void calculate(){
-		calculator.inputDigit('3');
-		calculator.inputDigit('*');
-		calculator.inputDigit('4');
-		calculator.inputDigit('=');
+		inputDigitSequence("3*4=");
 		assertEquals("12", calculator.getOutput());
 	}
 	
 	@Test
 	public void calculateAfterUnevenDivision(){
-		calculator.inputDigit('1');
-		calculator.inputDigit('0');
-		calculator.inputDigit('/');
-		calculator.inputDigit('3');
-		calculator.inputDigit('+');
-		calculator.inputDigit('5');
-		calculator.inputDigit('=');
+		inputDigitSequence("10/3+5=");
 		assertEquals("8.333333333", calculator.getOutput());
 	}
 	
@@ -166,20 +126,21 @@ public class CalculatorTests {
 	
 	@Test
 	public void calculateBeforeSecondOperand(){
-		calculator.inputDigit('3');
-		calculator.inputDigit('0');
-		calculator.inputDigit('/');
-		calculator.inputDigit('=');
+		inputDigitSequence("30/=");
 		assertEquals("30/", calculator.getOutput());
 	}
 	
 	@Test
 	public void resetWithC(){
-		calculator.inputDigit('5');
-		calculator.inputDigit('*');
-		calculator.inputDigit('3');
-		calculator.inputDigit('C');
+		inputDigitSequence("5*3C");
 		assertEquals("", calculator.getOutput());
+	}
+	
+	private void inputDigitSequence(String sequence){
+		int length = sequence.length();
+		for(int i=0; i<length; i++){
+			calculator.inputDigit(sequence.charAt(i));
+		}
 	}
 
 }
