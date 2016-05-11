@@ -33,20 +33,29 @@ public class Calculator {
 		boolean bothOperandsAreSet = !firstOperand.equals("") && !secondOperand.equals("");
 		
 		if(operatorIsSet && bothOperandsAreSet){
-			double calculation = 0;
-			if(operator == '*'){
-				calculation = Double.valueOf(firstOperand) * Double.valueOf(secondOperand);
-			} else if(operator == '+'){
-				calculation = Double.valueOf(firstOperand) + Double.valueOf(secondOperand);
-			} else if(operator == '-'){
-				calculation = Double.valueOf(firstOperand) - Double.valueOf(secondOperand);
-			} else if(operator == '/'){
-				calculation = Double.valueOf(firstOperand) / Double.valueOf(secondOperand);
+			boolean divisionByZero = secondOperand.equals("0");
+			if(divisionByZero){
+				reset();
+			} else {
+				carryOutProperCalculation(operator);
 			}
-			reset();
-			firstOperand = roundCalculationToLength(calculation);
-			firstOperand = replaceCommaWithDot(firstOperand);
 		}
+	}
+	
+	private void carryOutProperCalculation(char operator){
+		double calculation = 0;
+		if(operator == '*'){
+			calculation = Double.valueOf(firstOperand) * Double.valueOf(secondOperand);
+		} else if(operator == '+'){
+			calculation = Double.valueOf(firstOperand) + Double.valueOf(secondOperand);
+		} else if(operator == '-'){
+			calculation = Double.valueOf(firstOperand) - Double.valueOf(secondOperand);
+		} else if(operator == '/'){
+			calculation = Double.valueOf(firstOperand) / Double.valueOf(secondOperand);
+		}
+		reset();
+		firstOperand = roundCalculationToLength(calculation);
+		firstOperand = replaceCommaWithDot(firstOperand);
 	}
 	
 	private String replaceCommaWithDot(String number) {
@@ -88,13 +97,22 @@ public class Calculator {
 		} else if(firstOperandIsSet && !secondOperandIsSet && digitIsAValidOperator){	
 			operator = digit;
 		} else if(firstOperandIsSet && operatorIsSet && !digitIsAValidOperator){
-			secondOperand += String.valueOf(digit);
+			secondOperand = inputDigitOrReplaceLeadingZero(secondOperand, digit);
 		} else if(!operatorIsSet && !secondOperandIsSet && !digitIsAValidOperator){
-			firstOperand += String.valueOf(digit);
+			firstOperand = inputDigitOrReplaceLeadingZero(firstOperand, digit);
 		} else if(firstOperandIsSet && operatorIsSet && secondOperandIsSet && digitIsAValidOperator){
 			calculate();
 			operator = digit;
 		}
+	}
+	
+	private String inputDigitOrReplaceLeadingZero(String operand, char digit){
+		if(operand.equals("0")){
+			return String.valueOf(digit);
+		} else {				
+			operand += String.valueOf(digit);
+			return operand;
+		}		
 	}
 
 }

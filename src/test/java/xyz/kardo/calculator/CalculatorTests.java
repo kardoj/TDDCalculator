@@ -136,11 +136,31 @@ public class CalculatorTests {
 		assertEquals("", calculator.getOutput());
 	}
 	
+	@Test
+	public void divideByZero() {
+		inputDigitSequence("5/0=");
+		assertEquals("", calculator.getOutput());
+	}
+	
+	@Test
+	public void replaceFirstZeroOnInputForFirstOperand() {
+		inputDigitSequence("05");
+		assertEquals("5", calculator.getOutput());
+	}
+	
+	@Test
+	public void replaceFirstZeroOnInputForSecondOperand() {
+		inputDigitSequence("4*05");
+		assertEquals("4*5", calculator.getOutput());
+	}
+	
 	private void inputDigitSequence(String sequence){
 		int length = sequence.length();
 		for(int i=0; i<length; i++){
 			calculator.inputDigit(sequence.charAt(i));
 		}
 	}
+	
+	
 
 }
