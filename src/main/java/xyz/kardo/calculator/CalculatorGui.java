@@ -77,7 +77,13 @@ public class CalculatorGui implements MouseListener{
 		if(e.getSource() instanceof JButton){
 			char digit = ((JButton) e.getSource()).getText().charAt(0);
 			calculator.inputDigit(digit);
-			outputField.setText(calculator.getOutput());
+			
+			String output = calculator.getOutput();
+			if(output.equals("")){
+				output = "0";
+			}
+			
+			outputField.setText(output);
 		}
 	}
 
