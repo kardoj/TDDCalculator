@@ -97,13 +97,13 @@ public class CalculatorTests {
 	@Test
 	public void divideUneven(){
 		inputDigitSequence("10/3=");
-		assertEquals("3.333333333", calculator.getOutput());
+		assertEquals("3.3333333333333335", calculator.getOutput());
 	}
 	
 	@Test
 	public void divideUnevenDoubleDigits(){
 		inputDigitSequence("40/3=");
-		assertEquals("13.33333333", calculator.getOutput());		
+		assertEquals("13.333333333333334", calculator.getOutput());		
 	}
 	
 	@Test
@@ -115,7 +115,7 @@ public class CalculatorTests {
 	@Test
 	public void calculateAfterUnevenDivision(){
 		inputDigitSequence("10/3+5=");
-		assertEquals("8.333333333", calculator.getOutput());
+		assertEquals("8.333333333333334", calculator.getOutput());
 	}
 	
 	@Test

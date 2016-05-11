@@ -5,6 +5,7 @@
  */
 package xyz.kardo.calculator;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -28,6 +29,7 @@ public class CalculatorGui implements MouseListener{
 		window = new JFrame("Calculator");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		createGuiElements(window);
+		window.setPreferredSize(new Dimension(300, 500));
 		window.pack();
 		window.setVisible(true);
 		window.addMouseListener(this);
@@ -58,6 +60,7 @@ public class CalculatorGui implements MouseListener{
 	private void createOutputField(JPanel frame) {
 		outputField = new JTextField("0");
 		outputField.setHorizontalAlignment(JTextField.RIGHT);
+		outputField.setFocusable(false);
 		frame.add(outputField);		
 	}
 

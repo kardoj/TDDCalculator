@@ -6,6 +6,7 @@ package xyz.kardo.calculator;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 public class Calculator {
 	
@@ -37,12 +38,12 @@ public class Calculator {
 			if(divisionByZero){
 				reset();
 			} else {
-				carryOutProperCalculation(operator);
+				chooseAndDoTheCalculation(operator);
 			}
 		}
 	}
 	
-	private void carryOutProperCalculation(char operator){
+	private void chooseAndDoTheCalculation(char operator){
 		double calculation = 0;
 		if(operator == '*'){
 			calculation = Double.valueOf(firstOperand) * Double.valueOf(secondOperand);
@@ -54,34 +55,20 @@ public class Calculator {
 			calculation = Double.valueOf(firstOperand) / Double.valueOf(secondOperand);
 		}
 		reset();
-		firstOperand = roundCalculationToLength(calculation);
-		firstOperand = replaceCommaWithDot(firstOperand);
+		firstOperand = replaceCommaWithDot(String.valueOf(calculation));
+		firstOperand = removeFloatingZeroes(firstOperand);
+	}
+	
+	private String removeFloatingZeroes(String operand){
+		String[] parts = operand.split("\\.");
+		if(parts.length >= 2 && Long.valueOf(parts[1]) == 0){
+			return parts[0];
+		}
+		return operand;
 	}
 	
 	private String replaceCommaWithDot(String number) {
 		return number.replace(',', '.');
-	}
-
-	private String roundCalculationToLength(double calculation){
-		int commaIndex = String.valueOf(calculation).indexOf('.');
-		String formatString = buildFormatString(commaIndex);
-		DecimalFormat format = new DecimalFormat(formatString);
-		format.setRoundingMode(RoundingMode.HALF_UP);
-		return format.format(calculation);
-	}
-	
-	// The purpose of this method is to always get the calculation to be the same length, 11 characters
-	private String buildFormatString(int commaIndex){
-		int formatLength = 11;
-		StringBuilder builder = new StringBuilder(formatLength);
-		for(int i=0; i<formatLength; i++){
-			if(i == commaIndex){
-				builder.append(".");
-			} else {
-				builder.append("#");
-			}
-		}
-		return builder.toString();
 	}
 
 	public void inputDigit(char digit) {
